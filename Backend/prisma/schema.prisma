@@ -23,7 +23,7 @@ model User {
 
 model Category {
     id Int @id @default(autoincrement())
-    createdAt DateTime
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     name String
 
@@ -33,7 +33,7 @@ model Category {
 
 model Order {
     id Int @id @default(autoincrement())
-    createdAt DateTime
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     
     table Int
@@ -47,10 +47,10 @@ model Order {
 
 model Product {
    id Int @id @default(autoincrement())
-   createdAt DateTime
+   createdAt DateTime @default(now())
    updatedAt DateTime @updatedAt
    name String
-   price String
+   price Decimal
    description String
    banner String
 

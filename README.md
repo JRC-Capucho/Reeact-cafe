@@ -60,4 +60,7 @@ Badges are not necessary but demonstrate credibility. Badges show other develope
 - ts-node-dev # Nodemon
 - cors # Cross-origin resource sharing
 - prisma # Type ORM
+- jsonwebtoken # JWT
+- dotenv # DOT ENV
+- argon2 # Crypt 
 
