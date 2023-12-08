@@ -10,12 +10,14 @@ interface ProductDto {
 
 class ProductService {
   async create({ name, price, description, categoryId, banner }: ProductDto) {
+    const priceNumber = Number(price);
+    const categoryIdNumber = Number(categoryId);
     const product = await prismaClient.product.create({
       data: {
         name: name,
-        price: price,
+        price: priceNumber,
         description: description,
-        categoryId: categoryId,
+        categoryId: categoryIdNumber,
         banner: banner,
       },
     });

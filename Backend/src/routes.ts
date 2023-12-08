@@ -5,7 +5,12 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { CategoryController } from "./controllers/category/CategoryController";
 import { ProductController } from "./controllers/product/ProductController";
 
+import multer from "multer";
+import uploadConfig from "./config/multer";
+
 const router = Router();
+
+const upload = multer(uploadConfig.upload("./tmp"));
 
 // ROUTES FOR USER
 router.post("/user/create", new UserController().create); // Create
@@ -22,6 +27,11 @@ router.post(
 router.get("/category", isAuthenticated, new CategoryController().list);
 
 // ROUTES FOR PRODUCTS
-router.post("/product/create", isAuthenticated, new ProductController().create);
+router.post(
+  "/product/create",
+  isAuthenticated,
+  upload.single("file"),
+  new ProductController().create,
+);
 
 export { router };
