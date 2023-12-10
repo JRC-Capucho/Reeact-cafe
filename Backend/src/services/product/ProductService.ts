@@ -1,5 +1,9 @@
 import prismaClient from "../../prisma";
 
+interface ProdutctSearchDto {
+  categoryId: number;
+}
+
 interface ProductDto {
   name: string;
   price: number;
@@ -19,6 +23,16 @@ class ProductService {
         description: description,
         categoryId: categoryIdNumber,
         banner: banner,
+      },
+    });
+
+    return product;
+  }
+
+  async listForGategory({ categoryId }: ProdutctSearchDto) {
+    const product = await prismaClient.product.findMany({
+      where: {
+        categoryId: categoryId,
       },
     });
 

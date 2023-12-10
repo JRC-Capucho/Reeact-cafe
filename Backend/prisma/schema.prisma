@@ -65,7 +65,6 @@ model Item{
    id Int @id @default(autoincrement())
    amount Int
 
-
    orderId Int
    productId Int
 

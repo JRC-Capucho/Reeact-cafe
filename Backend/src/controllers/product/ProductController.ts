@@ -20,6 +20,17 @@ class ProductController {
 
     return res.json(product);
   }
+  async listForGategory(req: Request, res: Response) {
+    const category = req.query.categoryId;
+
+    const categoryId = Number(category);
+
+    const productService = new ProductService();
+
+    const products = await productService.listForGategory({ categoryId });
+
+    return res.json(products);
+  }
 }
 
 export { ProductController };
