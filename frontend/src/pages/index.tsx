@@ -10,12 +10,18 @@ import Image from "next/image"
 import Link from "next/link";
 import Head from "next/head";
 
+import { AuthContext } from "@/contexts/AuthContext";
+import { canSSRGuest } from "@/utils/canSSRGuest";
+
+
 export default function SignIn() {
+  const { signIn } = useContext(AuthContext)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
     if (email === '' || password === '') {
@@ -25,11 +31,9 @@ export default function SignIn() {
 
     setLoading(true);
 
-    let data = {
-      email, password
-    }
+    let data = { email, password }
 
-    // await signIn(data)
+    await signIn(data)
 
     setLoading(false)
   }
@@ -62,3 +66,9 @@ export default function SignIn() {
     </>
   )
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

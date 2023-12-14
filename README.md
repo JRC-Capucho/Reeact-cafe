@@ -54,6 +54,7 @@ Badges are not necessary but demonstrate credibility. Badges show other develope
 
 ### Libraries
 
+### api
 - Express
 - typescript
 - express-async-errors  # Handle Errors
@@ -64,3 +65,9 @@ Badges are not necessary but demonstrate credibility. Badges show other develope
 - dotenv # DOT ENV
 - argon2 # Crypt 
 
+### front
+- react-icons
+- nookies
+- react-toast
+- axios
+- jwt-decode

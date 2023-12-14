@@ -2,30 +2,31 @@ import { useRouter } from "next/router";
 import { ReactNode, createContext, useState } from "react";
 import { destroyCookie, setCookie } from "nookies";
 import { toast } from "react-toastify";
+import { api } from "@/services/apiClient";
 
-interface UserProps {
+type UserProps = {
   id: number;
   name: string;
   email: string;
-}
+};
 
-interface SignInProps {
+type SignInProps = {
   email: string;
   password: string;
-}
+};
 
-interface SignUpProps {
+type SignUpProps = {
   email: string;
   name: string;
   password: string;
-}
+};
 
 type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
-  signUp: (credentials: SignUpProps) => Promise<void>;
   signOut: () => void;
+  signUp: (credentials: SignUpProps) => Promise<void>;
 };
 
 type AuthProviderProps = {
@@ -39,7 +40,7 @@ export function signOut() {
   try {
     destroyCookie(undefined, "@nextauth.token");
     router.push("/");
-  } catch (error) {}
+  } catch (error) { }
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -47,7 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user;
   const router = useRouter();
 
-  async function sigIn({ email, password }: SignInProps) {
+  async function signIn({ email, password }: SignInProps) {
     try {
       const res = await api.post("user/login", { email, password });
 
@@ -82,10 +83,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       toast.error("Invalid create");
     }
   }
-  return (
-  <AuthContext.Provider value={{user,isAuthenticated,signIn,signUp}}>
-  {children}
-    </AuthContext.Provider>
 
-  )
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
