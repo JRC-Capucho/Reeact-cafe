@@ -72,13 +72,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signUp({ name, email, password }: SignUpProps) {
     try {
+
       const res = await api.post("user/create", {
         name,
         email,
         password,
       });
+
       toast.success("Create success!");
+
       router.push("/");
+
     } catch (error) {
       toast.error("Invalid create");
     }
