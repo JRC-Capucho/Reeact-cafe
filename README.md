@@ -71,3 +71,4 @@ Badges are not necessary but demonstrate credibility. Badges show other develope
 - react-toast
 - axios
 - jwt-decode
+- react-modal

@@ -27,6 +27,7 @@ type AuthContextData = {
   signIn: (credentials: SignInProps) => Promise<void>;
   signOut: () => void;
   signUp: (credentials: SignUpProps) => Promise<void>;
+  teste: () => void;
 };
 
 type AuthProviderProps = {
@@ -40,7 +41,8 @@ export function signOut() {
   try {
     destroyCookie(undefined, "@nextauth.token");
     router.push("/");
-  } catch (error) { }
+  } catch (error) {
+  }
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -86,7 +88,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signUp({ name, email, password }: SignUpProps) {
     try {
-
       const res = await api.post("user/create", {
         name,
         email,
