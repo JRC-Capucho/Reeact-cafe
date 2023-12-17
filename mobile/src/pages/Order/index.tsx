@@ -17,6 +17,7 @@ import { api } from "../../services/api"
 
 import { useNavigation } from '@react-navigation/native'
 import { ModalPicker } from "../../components/ModalPicker"
+import { ListItem } from "../../components/ListItem"
 
 type RouteDetailParams = {
   Order: {
@@ -94,6 +95,23 @@ export default function Order() {
       console.log(error)
     }
   }
+
+  async function handleAdd() {
+    const res = await api.post("item/create", {
+      orderId: Number(route.params?.orderId),
+      productId: Number(productSelected?.id),
+      amount: Number(amount)
+    })
+
+    let data = {
+      id: res.data.id,
+      productId: productSelected?.id,
+      name: productSelected?.name,
+      amount: amount
+    }
+    setItems(oldArray => [...oldArray, data])
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -130,7 +148,7 @@ export default function Order() {
       </View>
       <View style={styles.action}>
 
-        <TouchableOpacity style={styles.buttonAdd}>
+        <TouchableOpacity style={styles.buttonAdd} onPress={handleAdd}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
 
@@ -148,7 +166,7 @@ export default function Order() {
         style={{ flex: 1, marginTop: 24 }}
         data={items}
         keyExtractor={(item) => item.id}
-        renderItem={}
+        renderItem={({ item }) => <ListItem data={item} />}
       />
 
       <Modal
