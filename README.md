@@ -72,3 +72,11 @@ Badges are not necessary but demonstrate credibility. Badges show other develope
 - axios
 - jwt-decode
 - react-modal
+
+### mobile
+
+- @react-native-async-storage/async-storage
+- @react-navigation/native-stack
+- react-native-screens react-native-safe-area-context
+- @react-navigation/native
+
