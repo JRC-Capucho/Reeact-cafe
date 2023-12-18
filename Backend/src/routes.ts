@@ -55,7 +55,6 @@ router.put(
   isAuthenticated,
   new OrderController().sendOrder,
 );
-
 router.put("/order/finish", isAuthenticated, new OrderController().finishOrder);
 
 // ITEM

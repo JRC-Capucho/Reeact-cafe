@@ -50,6 +50,7 @@ export default function Product({ categoryList }: CategoryProps) {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
+    console.log("nice")
     try {
 
       if (productName === '' || price === '' || describe === '' || image === null) {
@@ -57,12 +58,12 @@ export default function Product({ categoryList }: CategoryProps) {
         return;
       }
 
-
       const data = new FormData()
+
       data.append('name', productName)
       data.append('price', price)
       data.append('description', describe)
-      data.append('categoryId', category[categorySelected].id)
+      data.append('categoryId', categorySelected)
       data.append('file', image)
 
 
@@ -76,7 +77,8 @@ export default function Product({ categoryList }: CategoryProps) {
       setUrlImage('')
 
     } catch (error) {
-      toast.warn("Error in register")
+      console.log(error);
+      toast.warn(`Error in register ${error}`)
     }
   }
 

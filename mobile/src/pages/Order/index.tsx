@@ -18,6 +18,8 @@ import { api } from "../../services/api"
 import { useNavigation } from '@react-navigation/native'
 import { ModalPicker } from "../../components/ModalPicker"
 import { ListItem } from "../../components/ListItem"
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackPramsList } from "../../routes/app.routes"
 
 type RouteDetailParams = {
   Order: {
@@ -47,9 +49,9 @@ type OrderRouteProps = RouteProp<RouteDetailParams, 'Order'>;
 
 export default function Order() {
   const route = useRoute<OrderRouteProps>();
-  const navigator = useNavigation();
+  const navigator = useNavigation<NativeStackNavigationProp<StackPramsList>>();
 
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('1');
 
   const [category, setCategory] = useState<CategoryProps[] | []>([]);
   const [categorySelected, setCategorySelected] = useState<CategoryProps | undefined>();
@@ -109,16 +111,35 @@ export default function Order() {
       name: productSelected?.name,
       amount: amount
     }
+
     setItems(oldArray => [...oldArray, data])
+  }
+
+  async function handleDeleteItem(id: number) {
+    await api.delete('item/delete', { params: { id: id } })
+
+    const removeItem = items.filter(item => {
+      return item.id !== id
+    })
+
+    setItems(removeItem)
+  }
+
+  function handleFinish() {
+    navigator.navigate('FinishOrder', { orderId: Number(route.params?.orderId), table: Number(route.params?.number) })
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Table {route.params.number}</Text>
-        <TouchableOpacity onPress={handleCloseOrder}>
-          <Feather name="trash-2" size={28} color="#FF3F4b" />
-        </TouchableOpacity>
+
+        {items.length === 0 && (
+          <TouchableOpacity onPress={handleCloseOrder}>
+            <Feather name="trash-2" size={28} color="#FF3F4b" />
+          </TouchableOpacity>
+        )}
+
       </View>
 
       {category.length !== 0 && (
@@ -153,6 +174,7 @@ export default function Order() {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={handleFinish}
           style={[styles.button, { opacity: items.length === 0 ? 0.3 : 1 }]}
           disabled={items.length === 0}
         >
@@ -166,7 +188,7 @@ export default function Order() {
         style={{ flex: 1, marginTop: 24 }}
         data={items}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ListItem data={item} />}
+        renderItem={({ item }) => <ListItem data={item} deleteItem={handleDeleteItem} />}
       />
 
       <Modal

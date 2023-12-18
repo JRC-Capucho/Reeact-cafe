@@ -18,8 +18,6 @@ import { api } from "../../services/api";
 export default function Dashboard() {
   const navigation = useNavigation<NativeStackNavigationProp<StackPramsList>>();
 
-  const { signOut } = useContext(AuthContext)
-
   const [table, setTable] = useState('');
 
   async function handleSubmit() {
@@ -31,7 +29,7 @@ export default function Dashboard() {
 
     console.log(res.data);
 
-    navigation.navigate('Order', { number: table, orderId: id });
+    navigation.navigate('Order', { number: Number(table), orderId: Number(id) });
 
     setTable('');
   }
